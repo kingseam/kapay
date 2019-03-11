@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaopay.todo.mybatis.mapper.TodoMapper">
+    <select id="selectTodoById" resultType="todo">
+        SELECT ID
+              ,CONTENTS
+              ,STATUS_TYPE
+              ,REG_DTS
+              ,MOD_DTS
+          FROM TODO
+         WHERE ID = #{id}
+      <if test="contents != null">
+           AND CONTENTS = #{contents}
+      </if>
+      <if test="statusType != null">
+        AND STATUS_TYPE = #{statusType}
+      </if>
+      <if test="modDts != null">
+        AND MOD_DTS = #{modDts}
+      </if>
+      <if test="regDts != null">
+        AND REG_DTS = #{regDts}
+      </if>
+    </select>
+
+  <select id="selectAllTodo" resultType="todo">
+        SELECT ID
+              ,CONTENTS
+              ,STATUS_TYPE
+              ,REG_DTS
+              ,MOD_DTS
+          FROM TODO
+    </select>
+
+    <insert id="insertTodo" parameterType="todo">
+        INSERT INTO TODO (CONTENTS, STATUS_TYPE)
+        VALUES (#{contents}, #{statusType})
+    </insert>
+</mapper>
