@@ -58,4 +58,13 @@
         INSERT INTO TODO (CONTENTS, STATUS_TYPE)
         VALUES (#{contents}, #{statusType})
     </insert>
+
+    <update id="updateTodo" useGeneratedKeys="true" keyProperty="id" parameterType="todo">
+        UPDATE TODO
+        SET CONTENTS = #{contents}
+        <if test="statusType != null">
+           ,STATUS_TYPE = #{statusType}
+        </if>
+        WHERE ID = #{id}
+    </update>
 </mapper>

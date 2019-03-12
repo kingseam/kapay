@@ -5,12 +5,12 @@ import com.kakaopay.todo.mybatis.mapper.TodoMapper;
 import com.kakaopay.todo.mybatis.model.Todo;
 import java.util.List;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class TodoService {
     private final TodoMapper todomapper;
 
@@ -23,13 +23,21 @@ public class TodoService {
         return Optional.ofNullable(todomapper.selectTodoById(dto)).get();
     }
 
+    @Transactional
+    public int updateTodo(RequestTodoDto dto){
+        return todomapper.updateTodo(dto);
+    }
+
     public List<Todo> getAllTodo(RequestTodoDto dto){
         return todomapper.selectAllTodo(dto);
     }
 
-    public Long addTodo(RequestTodoDto dto){
-        todomapper.insertTodo(dto);
-        return dto.getId();
+    @Transactional
+    public int addTodo(RequestTodoDto dto){
+        if(!StringUtils.equals("Y", dto.getStatusType())){
+            dto.setStatusType("N");
+        }
+        return todomapper.insertTodo(dto);
     }
 
     public int addRefTodo(RequestTodoDto dto){

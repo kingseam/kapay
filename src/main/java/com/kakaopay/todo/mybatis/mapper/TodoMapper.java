@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TodoMapper {
     Todo selectTodoById(RequestTodoDto todo);
+    int updateTodo(RequestTodoDto todo);
     List<Todo> selectAllTodo(RequestTodoDto todo);
     int insertTodo(RequestTodoDto todo);
     int insertRefTodo(RequestTodoDto todo);

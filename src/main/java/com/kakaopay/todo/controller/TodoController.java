@@ -2,6 +2,7 @@ package com.kakaopay.todo.controller;
 
 import com.kakaopay.todo.dto.RequestTodoDto;
 import com.kakaopay.todo.dto.ResponseTodoDto;
+import com.kakaopay.todo.exception.ValidCustomException;
 import com.kakaopay.todo.service.TodoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +28,6 @@ public class TodoController {
     @GetMapping("/")
     public @ResponseBody
     String main() {
-        log.info("{}", this);
         return "main";
     }
 
@@ -35,7 +36,6 @@ public class TodoController {
     ResponseTodoDto getAll(RequestTodoDto dto) {
         log.info("getAll()={{}",dto);
         return ResponseTodoDto.builder().result(todoservice.getAllTodo(dto)).build();
-
     }
 
     @GetMapping("/todolist/{id}")
@@ -46,15 +46,26 @@ public class TodoController {
         return ResponseTodoDto.builder().result(todoservice.getTodoById(dto)).build();
     }
 
+    @PutMapping("/todolist/{id}")
+    public @ResponseBody
+    ResponseTodoDto modifyTodoById(@PathVariable("id") Long id, @RequestBody RequestTodoDto dto) {
+        log.info("modifyTodoById={}", dto);
+        dto.setId(id);
+        this.checkRequired(dto);
+        return ResponseTodoDto.builder().result(todoservice.updateTodo(dto)).build();
+    }
+
 
     @PostMapping("/todolist")
     public @ResponseBody
-    Long addTodo(@RequestBody RequestTodoDto dto) {
-        log.info("post={}", dto);
-        if(!StringUtils.equals("Y", dto.getStatusType())){
-            dto.setStatusType("N");
-        }
-        return todoservice.addTodo(dto);
+    ResponseTodoDto addTodo(@RequestBody RequestTodoDto dto) {
+        log.info("addTodo={}", dto);
+        return ResponseTodoDto.builder().result(todoservice.addTodo(dto)+"건의 데이터가 추가되었습니다.").build();
     }
 
+    public void checkRequired(RequestTodoDto dto){
+        if(StringUtils.isBlank(dto.getContents())){
+            throw new ValidCustomException("input vaild = {\"contents\":\"anythings...\"}");
+        }
+    }
 }
