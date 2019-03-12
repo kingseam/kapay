@@ -13,16 +13,16 @@
           FROM TODO
          WHERE ID = #{id}
       <if test="contents != null">
-           AND CONTENTS = #{contents}
+        AND CONTENTS LIKE #{contents}||'%'
       </if>
       <if test="statusType != null">
         AND STATUS_TYPE = #{statusType}
       </if>
-      <if test="modDts != null">
-        AND MOD_DTS = #{modDts}
+      <if test="modDtsAfter != null and modDtsBefore != null">
+        AND MOD_DTS between #{modDtsAfter} and #{modDtsBefore}
       </if>
-      <if test="regDts != null">
-        AND REG_DTS = #{regDts}
+      <if test="regDtsAfter != null and regDtsBefore != null">
+        AND REG_DTS between #{regDtsAfter} and #{regDtsBefore}
       </if>
     </select>
 
@@ -33,9 +33,28 @@
               ,REG_DTS
               ,MOD_DTS
           FROM TODO
+         WHERE 1=1
+        <if test="ids != null">
+          AND ID IN
+          <foreach collection="ids" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="contents != null">
+          AND CONTENTS LIKE #{contents}||'%'
+        </if>
+        <if test="statusType != null">
+          AND STATUS_TYPE = #{statusType}
+        </if>
+        <if test="modDtsAfter != null and modDtsBefore != null">
+          AND MOD_DTS between #{modDtsAfter} and #{modDtsBefore}
+        </if>
+        <if test="regDtsAfter != null and regDtsBefore != null">
+          AND REG_DTS between #{regDtsAfter} and #{regDtsBefore}
+        </if>
     </select>
 
-    <insert id="insertTodo" parameterType="todo">
+    <insert id="insertTodo" useGeneratedKeys="true" keyProperty="id" parameterType="todo">
         INSERT INTO TODO (CONTENTS, STATUS_TYPE)
         VALUES (#{contents}, #{statusType})
     </insert>
