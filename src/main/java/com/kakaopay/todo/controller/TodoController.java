@@ -25,12 +25,6 @@ public class TodoController {
         this.todoservice = todoservice;
     }
 
-    @GetMapping("/")
-    public @ResponseBody
-    String main() {
-        return "main";
-    }
-
     @GetMapping("/todolist")
     public @ResponseBody
     ResponseTodoDto getAll(RequestTodoDto dto) {
@@ -60,12 +54,12 @@ public class TodoController {
     public @ResponseBody
     ResponseTodoDto addTodo(@RequestBody RequestTodoDto dto) {
         log.info("addTodo={}", dto);
-        return ResponseTodoDto.builder().result(todoservice.addTodo(dto)+"건의 데이터가 추가되었습니다.").build();
+        return ResponseTodoDto.builder().result(todoservice.addTodo(dto)).build();
     }
 
     public void checkRequired(RequestTodoDto dto){
         if(StringUtils.isBlank(dto.getContents())){
-            throw new ValidCustomException("input vaild = {\"contents\":\"anythings...\"}");
+            throw new ValidCustomException("input error = {\"contents\":\"anythings...\"}");
         }
     }
 }

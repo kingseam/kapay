@@ -52,6 +52,7 @@
         <if test="regDtsAfter != null and regDtsBefore != null">
           AND REG_DTS between #{regDtsAfter} and #{regDtsBefore}
         </if>
+          LIMIT #{limit} OFFSET #{offset};
     </select>
 
     <insert id="insertTodo" useGeneratedKeys="true" keyProperty="id" parameterType="todo">
