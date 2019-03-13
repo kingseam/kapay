@@ -34,18 +34,15 @@ public class TodoController {
 
     @GetMapping("/todolist/{id}")
     public @ResponseBody
-    ResponseTodoDto getTodoById(@PathVariable("id") Long id, RequestTodoDto dto) {
+    ResponseTodoDto getTodoById(RequestTodoDto dto) {
         log.info("get={}", dto);
-        dto.setId(id);
         return ResponseTodoDto.builder().result(todoservice.getTodoById(dto)).build();
     }
 
     @PutMapping("/todolist/{id}")
     public @ResponseBody
-    ResponseTodoDto modifyTodoById(@PathVariable("id") Long id, @RequestBody RequestTodoDto dto) {
+    ResponseTodoDto modifyTodoById(@RequestBody RequestTodoDto dto) {
         log.info("modifyTodoById={}", dto);
-        dto.setId(id);
-        this.checkRequired(dto);
         return ResponseTodoDto.builder().result(todoservice.updateTodo(dto)).build();
     }
 
@@ -55,11 +52,5 @@ public class TodoController {
     ResponseTodoDto addTodo(@RequestBody RequestTodoDto dto) {
         log.info("addTodo={}", dto);
         return ResponseTodoDto.builder().result(todoservice.addTodo(dto)).build();
-    }
-
-    public void checkRequired(RequestTodoDto dto){
-        if(StringUtils.isBlank(dto.getContents())){
-            throw new ValidCustomException("input error = {\"contents\":\"anythings...\"}");
-        }
     }
 }

@@ -34,9 +34,7 @@ public class TodoService {
 
     @Transactional
     public int addTodo(RequestTodoDto dto){
-        if(!StringUtils.equals("Y", dto.getStatusType())){
-            dto.setStatusType("N");
-        }
+
         return todomapper.insertTodo(dto);
     }
 

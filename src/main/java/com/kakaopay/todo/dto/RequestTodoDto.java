@@ -1,9 +1,9 @@
 package com.kakaopay.todo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 @ToString
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"id", "contents", "statusType"})
 public class RequestTodoDto {
     private Long id;
     private String contents;
@@ -34,12 +33,7 @@ public class RequestTodoDto {
         return StringUtils.defaultString(this.limit, "10");
     }
 
-    @JsonIgnore
-    private List<RefTodoDto> refTodoList;
-
-    @Data
-    class RefTodoDto {
-        private Long id;
-        private Long refId;
+    public String getStatusType(){
+        return !StringUtils.equals("Y", this.statusType) ? "N" : "Y";
     }
 }
