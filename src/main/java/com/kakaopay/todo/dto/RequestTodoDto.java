@@ -32,8 +32,4 @@ public class RequestTodoDto {
     public String getLimit(){
         return StringUtils.defaultString(this.limit, "10");
     }
-
-    public String getStatusType(){
-        return !StringUtils.equals("Y", this.statusType) ? "N" : "Y";
-    }
 }

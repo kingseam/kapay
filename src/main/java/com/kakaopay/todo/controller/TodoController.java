@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,29 +27,31 @@ public class TodoController {
     @GetMapping("/todos")
     public @ResponseBody
     ResponseTodoDto getAll(RequestTodoDto dto) {
-        log.info("getAll()={{}",dto);
         return ResponseTodoDto.builder().result(todoservice.getAllTodo(dto)).build();
     }
 
     @GetMapping("/todos/{id}")
     public @ResponseBody
     ResponseTodoDto getTodoById(RequestTodoDto dto) {
-        log.info("get={}", dto);
         return ResponseTodoDto.builder().result(todoservice.getTodoById(dto)).build();
     }
 
     @PutMapping("/todos/{id}")
     public @ResponseBody
     ResponseTodoDto modifyTodoById(@RequestBody RequestTodoDto dto) {
-        log.info("modifyTodoById={}", dto);
+        // vaildation check
+        if(dto.getId() == null){
+            throw new ValidCustomException("Required value (id) = {\"id\":\"1\", \"contents\":\"sample\"}");
+        }
         return ResponseTodoDto.builder().result(todoservice.updateTodo(dto)).build();
     }
-
 
     @PostMapping("/todos")
     public @ResponseBody
     ResponseTodoDto addTodo(@RequestBody RequestTodoDto dto) {
-        log.info("addTodo={}", dto);
+        if(!StringUtils.equals("Y",dto.getStatusType())){
+            dto.setStatusType("N");
+        }
         return ResponseTodoDto.builder().result(todoservice.addTodo(dto)).build();
     }
 }
