@@ -12,7 +12,7 @@ public class ResponseTodoDto<T> {
     private final T result;
 
     @Builder
-    private ResponseTodoDto(String code, T result){
+    protected ResponseTodoDto(String code, T result){
         this.code = StringUtils.defaultString(code,"200");
         this.result = result;
     }

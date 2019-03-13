@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.kakaopay.todo.dto.ResponseTodoDto;
 import com.kakaopay.todo.exception.JsonParseException;
 import com.kakaopay.todo.exception.ValidCustomException;
+import java.sql.SQLException;
 import java.util.NoSuchElementException;
+import org.h2.jdbc.JdbcSQLException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +24,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = JsonParseException.class)
     public ResponseTodoDto jsonParseException(JsonParseException exception) {
         return ResponseTodoDto.builder().code(String.valueOf(HttpStatus.BAD_REQUEST.value())).result(exception.getMessage()).build();
+    }
+
+    @ExceptionHandler(value = JdbcSQLException.class)
+    public ResponseTodoDto jdbcSQLException(JdbcSQLException exception) {
+        return ResponseTodoDto.builder().code("5001").result(exception.getMessage()).build();
+    }
+
+    @ExceptionHandler(value = SQLException.class)
+    public ResponseTodoDto sqlException(SQLException exception) {
+        return ResponseTodoDto.builder().code("50000").result(exception.getMessage()).build();
+    }
+
+    @ExceptionHandler(value = BindException.class)
+    public ResponseTodoDto bindException(BindException exception) {
+        return ResponseTodoDto.builder().code(String.valueOf(HttpStatus.BAD_REQUEST.value())).result("Mismatched json format").build();
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)

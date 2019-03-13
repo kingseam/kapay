@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.kakaopay.todo.util.TodoStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +43,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void 조회테스트() throws Exception{
+    public void 할일_목록_조회() throws Exception{
         this.mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"contents\":\"test todo\"}"))
@@ -62,37 +63,74 @@ public class ApplicationTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.result", hasSize(2)));
 
-        // 상태조회
+        // 상태조회 (statusType = N)
         this.mockMvc.perform(get("/todos?statusType=Y")
             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.result.size", is(1)));
+            .andExpect(jsonPath("$.result", hasSize(1)));
 
-        // 상태조회
+        // 상태조회 (statusType = Y)
         this.mockMvc.perform(get("/todos?statusType=N")
             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.result.size", is(1)));
+            .andExpect(jsonPath("$.result", hasSize(1)))
+            .andExpect(jsonPath("$.result[0].statusType", is("N")));
 
-        // 내용조회
+        // 내용조회 (contents = sample)
         this.mockMvc.perform(get("/todos?contents=sample")
             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.result.size", is(1)));
+            .andExpect(jsonPath("$.result", hasSize(1)))
+            .andExpect(jsonPath("$.result[0].contents", is("sample")));
 
-        // 내용조회
+        // 내용조회 (contents = ascascasc)
         this.mockMvc.perform(get("/todos?contents=ascascasc")
             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.result.size", is(0)));
+            .andExpect(jsonPath("$.result", hasSize(0)));
+
+        // offset, limit 조회 (paging)
+        this.mockMvc.perform(get("/todos?offset=0&limit=1")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result", hasSize(1)));
+
+        // 날짜 조회
+        this.mockMvc.perform(get("/todos?modDtsBefore=2018-03-10T12:00:00&modDtsAfter=2018-03-10T12:00:00")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result", hasSize(0)));
+
+        // 날짜 조회
+        this.mockMvc.perform(get("/todos?modDtsBefore=2020-03-13T12:00:00&modDtsAfter=2018-03-10T12:00:00")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result", hasSize(2)));
+
+        // id list 조회
+        this.mockMvc.perform(get("/todos?ids=1,3")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result", hasSize(1)));
+
+        // id list 조회
+        this.mockMvc.perform(get("/todos?ids=1,2")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result", hasSize(2)));
     }
 
     @Test
-    public void 할일추가후내용매칭() throws Exception{
+    public void 할일_추가_매핑없음() throws Exception{
         this.mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"contents\":\"test todo\"}"))
@@ -108,7 +146,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void 할일추가후내용변경() throws Exception{
+    public void 할일_수정_매핑없음() throws Exception{
         this.mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"contents\":\"test todo\"}"))
@@ -132,6 +170,13 @@ public class ApplicationTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.result[0].contents", is("sample")));
+    }
+
+    @Test
+    public void 참조_리스트_테스트(){
+
+        TodoStringUtils.getTodoMappingList("3","123123123 @1 @2");
+        System.out.println(TodoStringUtils.getIdsList(TodoStringUtils.getTodoMappingList("3","123123123 @1 @2")));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.kakaopay.todo.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @ToString
 @Data
@@ -15,10 +17,14 @@ public class RequestTodoDto {
     private Long id;
     private String contents;
     private String statusType;
-    private String modDtsAfter;
-    private String modDtsBefore;
-    private String regDtsAfter;
-    private String regDtsBefore;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime modDtsAfter;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime modDtsBefore;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime regDtsAfter;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime regDtsBefore;
     private String offset;
     private String limit;
 
