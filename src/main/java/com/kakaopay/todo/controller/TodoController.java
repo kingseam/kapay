@@ -25,21 +25,21 @@ public class TodoController {
         this.todoservice = todoservice;
     }
 
-    @GetMapping("/todolist")
+    @GetMapping("/todos")
     public @ResponseBody
     ResponseTodoDto getAll(RequestTodoDto dto) {
         log.info("getAll()={{}",dto);
         return ResponseTodoDto.builder().result(todoservice.getAllTodo(dto)).build();
     }
 
-    @GetMapping("/todolist/{id}")
+    @GetMapping("/todos/{id}")
     public @ResponseBody
     ResponseTodoDto getTodoById(RequestTodoDto dto) {
         log.info("get={}", dto);
         return ResponseTodoDto.builder().result(todoservice.getTodoById(dto)).build();
     }
 
-    @PutMapping("/todolist/{id}")
+    @PutMapping("/todos/{id}")
     public @ResponseBody
     ResponseTodoDto modifyTodoById(@RequestBody RequestTodoDto dto) {
         log.info("modifyTodoById={}", dto);
@@ -47,7 +47,7 @@ public class TodoController {
     }
 
 
-    @PostMapping("/todolist")
+    @PostMapping("/todos")
     public @ResponseBody
     ResponseTodoDto addTodo(@RequestBody RequestTodoDto dto) {
         log.info("addTodo={}", dto);

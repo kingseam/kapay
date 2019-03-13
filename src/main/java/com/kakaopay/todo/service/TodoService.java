@@ -20,7 +20,7 @@ public class TodoService {
     }
 
     public Todo getTodoById(RequestTodoDto dto){
-        return Optional.ofNullable(todomapper.selectTodoById(dto)).get();
+        return todomapper.selectTodoById(dto);
     }
 
     @Transactional
