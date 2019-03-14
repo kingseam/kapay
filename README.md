@@ -13,7 +13,6 @@
 * 문제1 : 사용자는 텍스트로 된 할일을 추가할 수 있다.
     * 기본적으로 단건만 추가가능하다. 
     * 다건(Json List)로 받는 구조를 추가한다면 URI를 추가적으로 설계 (ex : todos/many)
-    * http://localhost:8080/todos (HTTP method = POST)
     * sample json : {"contents":"sample" , "statusType":"N"}
     * statusType을 지정하지 않으면 자동으로 N, YN으로 컬럼을 설정하려했으나 더 많은 행위가 추가될수 있을거 같아 타입으로 컬럼 생성
     * http://localhost:8080/ 진입하여 sample json 작성 후 POST 버튼 실행
