@@ -16,24 +16,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 public class TodoService {
+
     private final TodoMapper todomapper;
 
-    public TodoService(TodoMapper todomapper){
+    public TodoService(TodoMapper todomapper) {
         this.todomapper = todomapper;
     }
 
-    public Todo getTodoById(RequestTodoDto dto){
+    public Todo getTodoById(RequestTodoDto dto) {
         return todomapper.selectTodoById(dto);
     }
 
-    public TodoAccum getTodoAccum(){
+    public TodoAccum getTodoAccum() {
         return todomapper.selectTodoAccum();
     }
 
     @Transactional
-    public int updateTodo(RequestTodoDto dto){
+    public int updateTodo(RequestTodoDto dto) {
         this.availability(dto);
-        if(StringUtils.equals(dto.getStatusType(), "Y")) {
+        if (StringUtils.equals(dto.getStatusType(), "Y")) {
             if (this.selectStatusType(dto.getId()) > 0) {
                 throw new ValidCustomException("완료되지 않은 참조 할일이 있습니다.");
             }
@@ -41,25 +42,25 @@ public class TodoService {
         return todomapper.updateTodo(dto);
     }
 
-    public List<Todo> getAllTodo(RequestTodoDto dto){
+    public List<Todo> getAllTodo(RequestTodoDto dto) {
         return todomapper.selectAllTodo(dto);
     }
 
     @Transactional
-    public int addTodo(RequestTodoDto dto){
+    public int addTodo(RequestTodoDto dto) {
         // 조회수 증가. 집계성은 배치로 하는편이지만 todo에선 실시간으로 처리.
         todomapper.updateTodoAccum();
         int result = todomapper.insertTodo(dto);
         this.availability(dto);
-        if(StringUtils.equals(dto.getStatusType(), "N")){
-            if(this.selectRefPossible(dto.getId()) > 0){
+        if (StringUtils.equals(dto.getStatusType(), "N")) {
+            if (this.selectRefPossible(dto.getId()) > 0) {
                 throw new ValidCustomException("참조 할일이 완료인 경우 추가 할수 없습니다.");
             }
         }
         return result;
     }
 
-    public void availability(RequestTodoDto dto){
+    public void availability(RequestTodoDto dto) {
         List<RefTodoDto> refTodoList = TodoStringUtils.getTodoMappingList(String.valueOf(dto.getId()), dto.getContents());
         this.deleteRefTodo(dto.getId());
         for (RefTodoDto refTodoDto : refTodoList) {
@@ -76,27 +77,27 @@ public class TodoService {
 
     }
 
-    private void addRefTodo(RefTodoDto dto){
+    private void addRefTodo(RefTodoDto dto) {
         todomapper.insertRefTodo(dto);
     }
 
-    private int selectExistTodo(Long id){
+    private int selectExistTodo(Long id) {
         return todomapper.selectExistTodo(id);
     }
 
-    private int selectRefPossible(Long id){
+    private int selectRefPossible(Long id) {
         return todomapper.selectRefPossible(id);
     }
 
-    private int selectStatusType(Long id){
+    private int selectStatusType(Long id) {
         return todomapper.selectStatusType(id);
     }
 
-    private int selectBackreference(RefTodoDto dto){
+    private int selectBackreference(RefTodoDto dto) {
         return todomapper.selectBackreference(dto);
     }
 
-    private int deleteRefTodo(Long id){
+    private int deleteRefTodo(Long id) {
         return todomapper.deleteRefTodo(id);
     }
 }

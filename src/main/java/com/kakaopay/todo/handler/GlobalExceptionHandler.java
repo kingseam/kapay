@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(value = MismatchedInputException.class)
     public ResponseTodoDto mismatchException(MismatchedInputException exception) {
         return ResponseTodoDto.builder().code(String.valueOf(HttpStatus.BAD_REQUEST.value())).result(exception.getMessage()).build();

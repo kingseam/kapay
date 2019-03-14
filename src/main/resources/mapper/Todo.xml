@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kakaopay.todo.mybatis.mapper.TodoMapper">
-    <select id="selectTodoById" resultType="todo">
-          SELECT TD.ID
-          ,TD.CONTENTS
-          ,TD.STATUS_TYPE
-          ,TD.REG_DTS
-          ,TD.MOD_DTS
-          FROM TODO TD
-         WHERE TD.ID = #{id}
-      <if test="contents != null">
-        AND TD.CONTENTS LIKE #{contents}||'%'
-      </if>
-      <if test="statusType != null">
-        AND TD.STATUS_TYPE = #{statusType}
-      </if>
-      <if test="modDtsAfter != null and modDtsBefore != null">
-        AND TD.MOD_DTS between #{modDtsAfter} and #{modDtsBefore}
-      </if>
-      <if test="regDtsAfter != null and regDtsBefore != null">
-        AND TD.REG_DTS between #{regDtsAfter} and #{regDtsBefore}
-      </if>
-    </select>
+  <select id="selectTodoById" resultType="todo">
+    SELECT TD.ID
+    ,TD.CONTENTS
+    ,TD.STATUS_TYPE
+    ,TD.REG_DTS
+    ,TD.MOD_DTS
+    FROM TODO TD
+    WHERE TD.ID = #{id}
+    <if test="contents != null">
+      AND TD.CONTENTS LIKE #{contents}||'%'
+    </if>
+    <if test="statusType != null">
+      AND TD.STATUS_TYPE = #{statusType}
+    </if>
+    <if test="modDtsAfter != null and modDtsBefore != null">
+      AND TD.MOD_DTS between #{modDtsAfter} and #{modDtsBefore}
+    </if>
+    <if test="regDtsAfter != null and regDtsBefore != null">
+      AND TD.REG_DTS between #{regDtsAfter} and #{regDtsBefore}
+    </if>
+  </select>
 
   <select id="selectExistTodo" resultType="int">
     SELECT COUNT(*)
@@ -33,33 +33,33 @@
   </select>
 
   <select id="selectAllTodo" resultType="todo">
-        SELECT TD.ID
-              ,TD.CONTENTS
-              ,TD.STATUS_TYPE
-              ,TD.REG_DTS
-              ,TD.MOD_DTS
-          FROM TODO TD
-         WHERE 1=1
-        <if test="ids != null">
-          AND TD.ID IN
-          <foreach collection="ids" item="item" index="index" separator="," open="(" close=")">
-            #{item}
-          </foreach>
-        </if>
-        <if test="contents != null">
-          AND TD.CONTENTS LIKE #{contents}||'%'
-        </if>
-        <if test="statusType != null">
-          AND TD.STATUS_TYPE = #{statusType}
-        </if>
-        <if test="modDtsAfter != null and modDtsBefore != null">
-          AND TD.MOD_DTS between #{modDtsAfter} and #{modDtsBefore}
-        </if>
-        <if test="regDtsAfter != null and regDtsBefore != null">
-          AND TD.REG_DTS between #{regDtsAfter} and #{regDtsBefore}
-        </if>
-          LIMIT #{limit} OFFSET #{offset};
-    </select>
+    SELECT TD.ID
+    ,TD.CONTENTS
+    ,TD.STATUS_TYPE
+    ,TD.REG_DTS
+    ,TD.MOD_DTS
+    FROM TODO TD
+    WHERE 1=1
+    <if test="ids != null">
+      AND TD.ID IN
+      <foreach collection="ids" item="item" index="index" separator="," open="(" close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="contents != null">
+      AND TD.CONTENTS LIKE #{contents}||'%'
+    </if>
+    <if test="statusType != null">
+      AND TD.STATUS_TYPE = #{statusType}
+    </if>
+    <if test="modDtsAfter != null and modDtsBefore != null">
+      AND TD.MOD_DTS between #{modDtsAfter} and #{modDtsBefore}
+    </if>
+    <if test="regDtsAfter != null and regDtsBefore != null">
+      AND TD.REG_DTS between #{regDtsAfter} and #{regDtsBefore}
+    </if>
+    LIMIT #{limit} OFFSET #{offset};
+  </select>
 
   <select id="selectTodoAccum" resultType="todo_accum">
     SELECT CNT AS TOTAL_COUNT
@@ -89,31 +89,31 @@
       AND STATUS_TYPE = 'N'
   </select>
 
-    <insert id="insertTodo" useGeneratedKeys="true"  keyProperty="id" >
+  <insert id="insertTodo" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO TODO (CONTENTS, STATUS_TYPE)
         VALUES (#{contents}, #{statusType})
     </insert>
 
-    <insert id="insertRefTodo">
+  <insert id="insertRefTodo">
         INSERT INTO REF_TODO (ID, REF_ID)
         VALUES (#{id}, #{refId})
     </insert>
 
-    <delete id="deleteRefTodo">
+  <delete id="deleteRefTodo">
         DELETE REF_TODO
         WHERE ID = (#{id})
     </delete>
 
-    <update id="updateTodo">
-        UPDATE TODO
-        SET CONTENTS = #{contents}
-        <if test="statusType != null">
-           ,STATUS_TYPE = #{statusType}
-        </if>
-        WHERE ID = #{id}
-    </update>
+  <update id="updateTodo">
+    UPDATE TODO
+    SET CONTENTS = #{contents}
+    <if test="statusType != null">
+      ,STATUS_TYPE = #{statusType}
+    </if>
+    WHERE ID = #{id}
+  </update>
 
-    <update id="updateTodoAccum">
+  <update id="updateTodoAccum">
         UPDATE TODO_ACCUM
         SET CNT = CNT + 1
     </update>

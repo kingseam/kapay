@@ -11,7 +11,8 @@ import org.apache.ibatis.type.Alias;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Alias("todo_accum")
-public class TodoAccum{
+public class TodoAccum {
+
     private String totalCount;
     private LocalDateTime modDts;
     private LocalDateTime regDts;

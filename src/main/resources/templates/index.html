@@ -2,60 +2,48 @@
 <html>
 <head>
   <title>ToDo view page</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
   <!-- Bootstrap -->
-  <link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen"> </link>
+  <link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
 </head>
 <body>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <div class="container-fluid">
- <br/><br/>
-  <!--
-  <form class="form-inline">
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Username</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      </tbody>
-    </table>
+  <br/><br/>
 
-    <nav aria-label="...">
-      <ul class="pagination">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-        <li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-      </ul>
-    </nav>
+  <form class="form-inline">
+    <div class="bs-callout bs-callout-danger" id="callout-inline-form-width">
+      <code>
+        Example URL
+        GET , PUT : /todos/ , todos/${id}/
+        POST : /todos/
+
+        Example Request
+        POST : {"contents":"sample" , "statusType":"Y"}
+        PUT : {"id":"1", "contents":"sample" , "statusType":"Y"}
+        GET : ?contents=sample
+        GET : ?modDtsBefore=2020-03-10T12:00:00&modDtsAfter=2018-03-10T12:00:00 (regDts or modDts ?? ??..)
+        GET : ?offset=0&limit=1 (??? ??, ??? offset=0, limit=10)
+        GET : ?ids=1,2,3
+      </code>
+    </div>
   </form>
--->
-<form class="form-inline">
-  <div class="form-group">
-    <label for="url">http://localhost:8080/todos/</label>
-    <input type="text" class="form-control" id="url" placeholder="url">
-  </div>
-</form>
-<form class="form-inline">
-  <div class="form-group">
-    <label for="inputJson">input json</label>
-    <input type="text" class="form-control" id="inputJson" placeholder="json input">
-  </div>
-  <button type="button" class="btn btn-default" id="get">GET</button>
-  <button type="button" class="btn btn-default" id="post">POST</button>
-  <button type="button" class="btn btn-default" id="put">PUT</button>
-</form>
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="url">http://localhost:8080/todos/</label>
+      <input type="text" class="form-control" id="url" placeholder="url">
+    </div>
+  </form>
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="inputJson">input json</label>
+      <input type="text" class="form-control" id="inputJson" placeholder="json input">
+    </div>
+    <button type="button" class="btn btn-default" id="get">GET</button>
+    <button type="button" class="btn btn-default" id="post">POST</button>
+    <button type="button" class="btn btn-default" id="put">PUT</button>
+  </form>
 </div>
 <div class="bs-callout bs-callout-danger" id="callout-inline-form-width">
   <h4>Result Json</h4>

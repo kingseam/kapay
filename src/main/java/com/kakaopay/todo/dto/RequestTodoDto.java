@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @NoArgsConstructor
 public class RequestTodoDto {
+
     private Long id;
     private String contents;
     private String statusType;
@@ -29,11 +30,11 @@ public class RequestTodoDto {
     //다중건에 대한 샘플링.. 개인적으론 id[]=[1,2,3] 형태가 더 좋아보이지만 일단은 개발..
     private List<Long> ids;
 
-    public String getOffset(){
+    public String getOffset() {
         return StringUtils.defaultString(this.offset, "0");
     }
 
-    public String getLimit(){
+    public String getLimit() {
         return StringUtils.defaultString(this.limit, "10");
     }
 }

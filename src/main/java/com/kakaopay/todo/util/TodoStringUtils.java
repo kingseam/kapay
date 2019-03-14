@@ -10,19 +10,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TodoStringUtils {
-    static public List<RefTodoDto> getTodoMappingList(String id, String contents){
+
+    static public List<RefTodoDto> getTodoMappingList(String id, String contents) {
         /*
          * 과제 기준으로 1번 요소를 할일로 보고 다음부터는 참조 요소로 본다.
          * 다만, 예외 케이스가 들어오면 로직 수정. api format 에 따로 추가하는게 어떨가 싶다..
          */
         CopyOnWriteArrayList<RefTodoDto> resultList = new CopyOnWriteArrayList<>();
-        StringTokenizer token = new StringTokenizer(contents,"@");
-        if(token.countTokens() > 1) {
+        StringTokenizer token = new StringTokenizer(contents, "@");
+        if (token.countTokens() > 1) {
             // 첫 요소 skip == stream.skip(1)
             token.nextToken();
             while (token.hasMoreTokens()) {
                 String temp = token.nextToken();
-                log.info("===temp=={}, id===={}",temp.trim(), id);
+                log.info("===temp=={}, id===={}", temp.trim(), id);
                 if (temp.trim().equals(id)) {
                     // 상수는 보통 message 처리나 enum 으로 처리하는게 좋지만 기능에 집중..
                     throw new ValidCustomException("자신의 id는 참조할수 없습니다.");
@@ -33,7 +34,7 @@ public class TodoStringUtils {
         return resultList;
     }
 
-    static public List<String> getIdsList(List<RefTodoDto> refTodoList){
-        return refTodoList.stream().map(obj->String.valueOf(obj.getRefId())).collect(Collectors.toList());
+    static public List<String> getIdsList(List<RefTodoDto> refTodoList) {
+        return refTodoList.stream().map(obj -> String.valueOf(obj.getRefId())).collect(Collectors.toList());
     }
 }

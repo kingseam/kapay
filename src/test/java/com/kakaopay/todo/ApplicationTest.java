@@ -26,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 @WebAppConfiguration
 public class ApplicationTest {
+
     private MockMvc mockMvc;
 
     @Autowired
@@ -44,7 +45,7 @@ public class ApplicationTest {
     // 전체테스트는 구현하지 못하고 단위 테스트만 구현
 
     @Test
-    public void 할일_목록_조회() throws Exception{
+    public void 할일_목록_조회() throws Exception {
         this.mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"contents\":\"test todo\"}"))
@@ -131,7 +132,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void 할일_수정_매핑없음() throws Exception{
+    public void 할일_수정_매핑없음() throws Exception {
         this.mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"contents\":\"test todo\"}"))
@@ -158,7 +159,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void  할일추가테스트() throws Exception{
+    public void 할일추가테스트() throws Exception {
         // id=1 (본인 참조)  == 400 코드 리턴
         // 참조할 할일(id)이 없으면 참조를 불가능하다.
         this.mockMvc.perform(post("/todos")
@@ -229,7 +230,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void 할일추가후_수정_조회테스트() throws Exception{
+    public void 할일추가후_수정_조회테스트() throws Exception {
         this.mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"contents\":\"test todo\"}"))
@@ -245,13 +246,13 @@ public class ApplicationTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.result", is(1)));
 
-       // uri : /todos/ 수정 역참조
-       this.mockMvc.perform(put("/todos")
+        // uri : /todos/ 수정 역참조
+        this.mockMvc.perform(put("/todos")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"id\":\"1\", \"contents\":\"a @2\" , \"statusType\":\"Y\"}"))
             .andDo(print())
             .andExpect(status().isOk())
-           .andExpect(jsonPath("$.code", is("400")));
+            .andExpect(jsonPath("$.code", is("400")));
 
         // uri : /todos/{id}
         // 완료되지 않은 참조가 있을 경우

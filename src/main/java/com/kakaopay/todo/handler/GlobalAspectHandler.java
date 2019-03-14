@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 public class GlobalAspectHandler {
+
     @Before("execution(* com.kakaopay.todo..*.*(..))")
     public void before(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();

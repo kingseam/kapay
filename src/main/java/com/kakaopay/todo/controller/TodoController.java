@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class TodoController {
+
     private final TodoService todoservice;
 
-    public TodoController(TodoService todoservice){
+    public TodoController(TodoService todoservice) {
         this.todoservice = todoservice;
     }
 
@@ -34,10 +35,10 @@ public class TodoController {
         return ResponseTodoDto.builder().result(todoservice.getTodoById(dto)).build();
     }
 
-    @PutMapping({"/todos/{id}","/todos"})
+    @PutMapping({"/todos/{id}", "/todos"})
     public ResponseTodoDto modifyTodoById(@RequestBody RequestTodoDto dto) {
         // vaildation check
-        if(dto.getId() == null){
+        if (dto.getId() == null) {
             throw new ValidCustomException("Required value (id) = {\"id\":\"1\", \"contents\":\"sample\"}");
         }
 
@@ -46,7 +47,7 @@ public class TodoController {
 
     @PostMapping("/todos")
     public ResponseTodoDto addTodo(@RequestBody RequestTodoDto dto) {
-        if(!StringUtils.equals("Y",dto.getStatusType())){
+        if (!StringUtils.equals("Y", dto.getStatusType())) {
             dto.setStatusType("N");
         }
         return ResponseTodoDto.builder().result(todoservice.addTodo(dto)).build();

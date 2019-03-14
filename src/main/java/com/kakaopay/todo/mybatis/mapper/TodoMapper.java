@@ -9,16 +9,28 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface TodoMapper {
+
     Todo selectTodoById(RequestTodoDto todo);
+
     int updateTodo(RequestTodoDto todo);
+
     int selectExistTodo(Long id);
+
     List<Todo> selectAllTodo(RequestTodoDto todo);
+
     int insertTodo(RequestTodoDto todo);
+
     int insertRefTodo(RefTodoDto refTodo);
+
     void updateTodoAccum();
+
     TodoAccum selectTodoAccum();
+
     int selectRefPossible(Long id);
+
     int selectStatusType(Long id);
+
     int selectBackreference(RefTodoDto refTodo);
+
     int deleteRefTodo(Long id);
 }

@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 @Getter
-public class JsonParseException extends RuntimeException{
-    public JsonParseException(String message){
+public class JsonParseException extends RuntimeException {
+
+    public JsonParseException(String message) {
         super(message);
     }
 
-    public JsonParseException(String message, Exception exception){
+    public JsonParseException(String message, Exception exception) {
         super(message, exception);
     }
 }
