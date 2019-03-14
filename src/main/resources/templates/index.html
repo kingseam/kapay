@@ -14,19 +14,25 @@
 
   <form class="form-inline">
     <div class="bs-callout bs-callout-danger" id="callout-inline-form-width">
-      <code>
         Example URL
+        <p></p>
         GET , PUT : /todos/ , todos/${id}/
+        <p></p>
         POST : /todos/
-
+        <p></p>
         Example Request
+        <p></p>
         POST : {"contents":"sample" , "statusType":"Y"}
+        <p></p>
         PUT : {"id":"1", "contents":"sample" , "statusType":"Y"}
+        <p></p>
         GET : ?contents=sample
+        <p></p>
         GET : ?modDtsBefore=2020-03-10T12:00:00&modDtsAfter=2018-03-10T12:00:00 (regDts or modDts ?? ??..)
-        GET : ?offset=0&limit=1 (??? ??, ??? offset=0, limit=10)
+        <p></p>
+        GET : ?offset=0&limit=1 (default offset=0, limit=10)
+        <p></p>
         GET : ?ids=1,2,3
-      </code>
     </div>
   </form>
   <form class="form-inline">

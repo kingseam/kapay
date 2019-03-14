@@ -11,9 +11,7 @@ $(function () {
         $("#resultJson").text(JSON.stringify(data));
       },
       error: function (reqeust, status, error) {
-        console.log(reqeust);
-        console.log(status);
-        console.log(error);
+        $("#resultJson").text(JSON.stringify(reqeust));
       }
     });
   });
@@ -27,12 +25,11 @@ $(function () {
       data: $("#inputJson").val(),
       success: function (data) {
         console.log(data);
-        $("#resultJson").text(data);
+        $("#resultJson").text(JSON.stringify(data));
       },
       error: function (reqeust, status, error) {
         console.log(reqeust);
-        console.log(status);
-        console.log(error);
+        $("#resultJson").text(JSON.stringify(reqeust));
       }
     });
   });
@@ -46,12 +43,10 @@ $(function () {
       data: $("#inputJson").val(),
       success: function (data) {
         console.log(data);
-        $("#resultJson").text(data);
+        $("#resultJson").text(JSON.stringify(data));
       },
       error: function (reqeust, status, error) {
-        console.log(reqeust);
-        console.log(status);
-        console.log(error);
+        $("#resultJson").text(JSON.stringify(reqeust));
       }
     });
   });
