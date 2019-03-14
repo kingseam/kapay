@@ -1,7 +1,5 @@
 package com.kakaopay.todo.dto;
 
-import com.kakaopay.todo.mybatis.model.Todo;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

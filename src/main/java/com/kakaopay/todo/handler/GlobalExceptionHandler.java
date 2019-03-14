@@ -6,6 +6,7 @@ import com.kakaopay.todo.exception.JsonParseException;
 import com.kakaopay.todo.exception.ValidCustomException;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
+import lombok.extern.slf4j.Slf4j;
 import org.h2.jdbc.JdbcSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @ControllerAdvice
 @RestController
+@Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = MismatchedInputException.class)
     public ResponseTodoDto mismatchException(MismatchedInputException exception) {
@@ -53,6 +55,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseTodoDto exception(Exception exception) {
+        log.info("exception={}", exception);
         return ResponseTodoDto.builder().code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value())).result(exception.getMessage()).build();
     }
 }

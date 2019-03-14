@@ -68,20 +68,43 @@
     FROM TODO_ACCUM TA
   </select>
 
-    <insert id="insertTodo" parameterType="todo">
+  <select id="selectRefPossible" resultType="int">
+      SELECT COUNT(*)
+      FROM TODO TD
+      WHERE TD.ID IN (SELECT REF_ID FROM REF_TODO WHERE ID = #{id})
+      AND STATUS_TYPE = 'Y'
+  </select>
+
+  <select id="selectBackreference" resultType="int">
+      SELECT COUNT(*)
+      FROM REF_TODO
+      WHERE ID = #{refId}
+        AND REF_ID = #{id}
+  </select>
+
+  <select id="selectStatusType" resultType="int">
+      SELECT COUNT(*)
+      FROM TODO TD
+      WHERE TD.ID IN (SELECT ID FROM REF_TODO WHERE REF_ID = #{id})
+      AND STATUS_TYPE = 'N'
+  </select>
+
+    <insert id="insertTodo" useGeneratedKeys="true"  keyProperty="id" >
         INSERT INTO TODO (CONTENTS, STATUS_TYPE)
         VALUES (#{contents}, #{statusType})
-      <selectKey resultType="int" keyProperty="id" order="AFTER">
-        SELECT LAST_INSERT_ID() as id
-      </selectKey>
     </insert>
 
-    <insert id="insertRefTodo" parameterType="reftodo">
+    <insert id="insertRefTodo">
         INSERT INTO REF_TODO (ID, REF_ID)
-        VALUES (#{contents}, #{statusType})
+        VALUES (#{id}, #{refId})
     </insert>
 
-    <update id="updateTodo" parameterType="todo">
+    <delete id="deleteRefTodo">
+        DELETE REF_TODO
+        WHERE ID = (#{id})
+    </delete>
+
+    <update id="updateTodo">
         UPDATE TODO
         SET CONTENTS = #{contents}
         <if test="statusType != null">

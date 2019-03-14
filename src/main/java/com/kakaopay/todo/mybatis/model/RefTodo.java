@@ -8,6 +8,7 @@ import org.apache.ibatis.type.Alias;
 
 @Getter
 @Alias("reftodo")
+@NoArgsConstructor(access =AccessLevel.PRIVATE)
 public class RefTodo {
     private Long id;
     private Long refId;

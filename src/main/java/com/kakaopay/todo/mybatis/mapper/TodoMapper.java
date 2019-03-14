@@ -14,7 +14,11 @@ public interface TodoMapper {
     int selectExistTodo(Long id);
     List<Todo> selectAllTodo(RequestTodoDto todo);
     int insertTodo(RequestTodoDto todo);
-    int insertRefTodo(RefTodoDto reftodo);
+    int insertRefTodo(RefTodoDto refTodo);
     void updateTodoAccum();
     TodoAccum selectTodoAccum();
+    int selectRefPossible(Long id);
+    int selectStatusType(Long id);
+    int selectBackreference(RefTodoDto refTodo);
+    int deleteRefTodo(Long id);
 }

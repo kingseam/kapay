@@ -2,7 +2,6 @@ package com.kakaopay.todo.util;
 
 import com.kakaopay.todo.dto.RefTodoDto;
 import com.kakaopay.todo.exception.ValidCustomException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,6 +24,7 @@ public class TodoStringUtils {
                 String temp = token.nextToken();
                 log.info("===temp=={}, id===={}",temp.trim(), id);
                 if (temp.trim().equals(id)) {
+                    // 상수는 보통 message 처리나 enum 으로 처리하는게 좋지만 기능에 집중..
                     throw new ValidCustomException("자신의 id는 참조할수 없습니다.");
                 }
                 resultList.add(RefTodoDto.builder().id(id).refId(temp.trim()).build());
@@ -34,6 +34,6 @@ public class TodoStringUtils {
     }
 
     static public List<String> getIdsList(List<RefTodoDto> refTodoList){
-        return refTodoList.stream().map(obj->obj.getRefId()).collect(Collectors.toList());
+        return refTodoList.stream().map(obj->String.valueOf(obj.getRefId())).collect(Collectors.toList());
     }
 }

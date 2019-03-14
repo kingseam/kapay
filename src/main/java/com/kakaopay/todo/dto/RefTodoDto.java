@@ -1,21 +1,18 @@
 package com.kakaopay.todo.dto;
 
-import java.util.List;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
 public class RefTodoDto {
-    private final String id;
-    private final String refId;
+    private final Long id;
+    private final Long refId;
 
     @Builder
-    private RefTodoDto(String id, String refId, List<String> refIds){
-        this.id = id;
-        this.refId = refId;
+    private RefTodoDto(String id, String refId){
+        this.id = Long.valueOf(id);
+        this.refId = Long.valueOf(refId);
     }
 }
